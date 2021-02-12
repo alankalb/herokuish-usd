@@ -1,2 +1,2 @@
 # herokuish-usd
-Dockerfile for building USD with herokuish
+Dockerfile for building Pixar USD with gliderlabs/herokuish
