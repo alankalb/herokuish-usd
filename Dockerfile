@@ -1,13 +1,6 @@
-FROM gliderlabs/herokuish:v0.5.24-20
+FROM alankalb/herokuish-usd:heroku20-usd21.02-ufg-quant
 WORKDIR /app
-RUN git clone https://github.com/PixarAnimationStudios/USD usdsrc && \
-	  cd usdsrc && git checkout tags/v21.02 && cd ../
-RUN python usdsrc/build_scripts/build_usd.py -v --no-imaging  --no-examples --no-tutorials /app/usd && \
-	  rm -rf usdsrc
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    nasm \
-    python3-pip
-RUN pip3 install Pillow
-RUN git clone https://github.com/alankalb/usd_from_gltf.git ufgsrc
-RUN python ufgsrc/tools/ufginstall/ufginstall.py /app/ufg /app/usd && \
-	 rm -rf ufgsrc
+COPY . /app
+RUN curl "https://github.com/gliderlabs/herokuish/releases/download/v0.5.24/herokuish_0.5.24_linux_x86_64.tgz" \
+    --silent -L | tar -xzC /bin
+RUN /bin/herokuish buildpack build
